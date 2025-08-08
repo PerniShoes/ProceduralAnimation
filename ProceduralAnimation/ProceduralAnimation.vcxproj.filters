@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="OrientationManager.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ChainLink.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProceduralAnimation.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="PrettyColors.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="OrientationManager.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainLink.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProceduralAnimation.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{10b63d61-2cd4-4d4d-870e-cbc235b03183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{d0ef8135-6c77-4d24-b75e-4d1ca09653e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{559e8d38-7da1-41e5-80f8-fd21865460f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{de981595-8a41-402e-a9d3-967cbe47843d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
