@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <print>
+#include <array>
 
 #include "Time.h"
 #include "Texture.h"
@@ -16,20 +17,67 @@ ProceduralAnimation::ProceduralAnimation()
     ,m_DrawContraint{false}
 
 {
+
     using namespace std;
     float linkRadius{10.0f};
-    float linkConstraintR{50.0f};
+    float linkConstraintR{45.0f};
 
-    int add{10};
-    int rows{5};
+    float startX{10.0f};
+    float startY{400.0f};
+    float xOffset{0};
+   // std::array<float,15> snakeBody{40.0f,50.0f,50.0f,40.0f,35.0f,35.0f,30.0f,25.0f,20.0f,15.0f,10.0f,10.0f,5.0f,5.0f,2.0f};
+   
+    std::array<float,100> snakeBody{  // 25 steps 40 -> 55
+  40.0f, 40.6f, 41.2f, 41.8f, 42.4f, 43.0f, 43.6f, 44.2f, 44.8f, 45.4f,
+  46.0f, 46.6f, 47.2f, 47.8f, 48.4f, 49.0f, 49.6f, 50.2f, 50.8f, 51.4f,
+  52.0f, 52.6f, 53.2f, 53.8f, 54.4f,
+
+  // 25 steps 55 -> 40
+  55.0f, 54.4f, 53.8f, 53.2f, 52.6f, 52.0f, 51.4f, 50.8f, 50.2f, 49.6f,
+  49.0f, 48.4f, 47.8f, 47.2f, 46.6f, 46.0f, 45.4f, 44.8f, 44.2f, 43.6f,
+  43.0f, 42.4f, 41.8f, 41.2f, 40.6f,
+
+  // 40 steps 40 -> 5
+  40.0f, 38.6f, 37.2f, 35.8f, 34.4f, 33.0f, 31.6f, 30.2f, 28.8f, 27.4f,
+  26.0f, 24.6f, 23.2f, 21.8f, 20.4f, 19.0f, 17.6f, 16.2f, 14.8f, 13.4f,
+  12.0f, 10.6f, 9.2f, 7.8f, 6.4f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
+  5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
+
+  // last 5 steps all 5
+  5.0f, 5.0f, 5.0f, 5.0f, 5.0f};
+  
+    //std::array<float,5> snakeBody{50.0f,40.0f,30.0f,20.0f,15.0f};
+
+    int add{int(snakeBody.size())};
+    int rows{1};
     for (int index{0}; index < rows; index++)
     {
         for (int i{0}; i < add; i++)
         {
-            m_Links.push_back(make_unique<ChainLink>(Circlef{Point2f{50.0f + (linkRadius * 4) * i,50.0f+ (linkRadius * 4)*index},linkRadius},linkConstraintR));
+            float radius = snakeBody[i];
+            Point2f position{startX + xOffset + radius
+                ,startY};
+
+            m_Links.push_back(make_unique<ChainLink>(Circlef{position,snakeBody[i]}
+            ,linkConstraintR));
+            xOffset += (radius * 2) + 5;
         }
     }
+    // Sides setup
+    for (int i{0}; i < m_Links.size(); i++)
+    {
+        m_Links[i]->CalculateSidePoints(1); 
+    }
 
+    // Automatic constraining
+    for (int i{0}; i < snakeBody.size(); i++)
+    {
+        if (i == snakeBody.size() - 1) // Last Link has nothing to Constrain to it
+            break;
+        m_Links[i + 1]->ConstrainTo(m_Links[i]->GetCenter(),m_Links[i]->GetConstraintR());
+    }
+    m_MainLinks.push_back(0);
+    UpdateLinkColors();
 }
 
 ProceduralAnimation::~ProceduralAnimation()
@@ -76,7 +124,22 @@ void ProceduralAnimation::Update(float elapsedTime)
     {
         m_Links[i]->Update(); // Have manager class and things like UpdateAll()
     }
-    
+
+    // SetAngle of head based on an angle of a link that points to it
+
+    for (int i{0}; i < m_MainLinks.size(); i++)
+    {
+        auto sharedMain = m_Links[m_MainLinks[i]]->GetCenter().lock();
+        for (int index{0}; index < m_Links.size(); index++)
+        {
+            auto shared = m_Links[index]->GetTarget().lock();
+            if (shared == sharedMain)
+            {
+                m_Links[m_MainLinks[i]]->SetAngle(m_Links[index]->GetAngle());
+                break;
+            }
+        }
+    }
    
 }
 void ProceduralAnimation::UpdateTextures() 
@@ -194,18 +257,23 @@ void ProceduralAnimation::UpdateMainLinks()
 }
 void ProceduralAnimation::ConstrainSelectedLinks()
 {
+    if (m_LinksSelected.size() == 0)
+        return;
     for (int i{0}; i < m_LinksSelected.size(); i++)
     {
         if (i == m_LinksSelected.size() - 1) // Last Link has nothing to Constrain to it
             break;
         // Constrain second link to first // third to second...
+        m_Links[m_LinksSelected[i + 1]]->UnConstrain();
         m_Links[m_LinksSelected[i+1]]->ConstrainTo(m_Links[m_LinksSelected[i]]->GetCenter(),m_Links[m_LinksSelected[i]]->GetConstraintR());
     }
+    m_Links[m_LinksSelected[0]]->UnConstrain();
     m_MainLinks.push_back(m_LinksSelected[0]);
     UpdateMainLinks();
 
     m_LinksSelected.clear();
     UpdateLinkColors();
+
 }
 void ProceduralAnimation::ConstrainToMouse()
 {
@@ -220,6 +288,8 @@ void ProceduralAnimation::ConstrainToMouse()
     {
         if (IsPointInCircle(m_LastMousePos,m_Links[i]->GetBounds()))
         {
+            m_Links[i]->UnConstrain();
+            m_MainLinks.push_back(i);
             m_Links[i]->ConstrainTo(m_LastMousePos);
             m_ConstrainedToMouse = i;
             break; 

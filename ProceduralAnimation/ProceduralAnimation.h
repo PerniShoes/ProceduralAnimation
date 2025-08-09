@@ -58,6 +58,8 @@ public:
 private:
     // Add FIX to things that need to be fixed, later check FIX in search tool
     // Same with DELETE
+
+    // Calculate sides of a segment using direction vector and angle of it
     
     void Cleanup();
 
