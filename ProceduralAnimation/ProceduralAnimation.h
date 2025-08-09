@@ -55,12 +55,26 @@ public:
     void ConstrainToMouse();
     void UpdateMainLinks();
 
+    void CalculateArcs();
+
 private:
     // Add FIX to things that need to be fixed, later check FIX in search tool
     // Same with DELETE
 
     // Calculate sides of a segment using direction vector and angle of it
     
+    // Only circles
+    struct Arc
+    {
+        Point2f center;
+        float radius;
+        float fromAngle;
+        float tillAngle;
+    };
+
+    std::vector<Arc> m_SnakeSides;
+    std::vector<std::weak_ptr<std::vector<const Point2f>>> m_AllSidePoints;
+
     void Cleanup();
 
     // Mouse

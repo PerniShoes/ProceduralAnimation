@@ -27,26 +27,26 @@ ProceduralAnimation::ProceduralAnimation()
     float xOffset{0};
    // std::array<float,15> snakeBody{40.0f,50.0f,50.0f,40.0f,35.0f,35.0f,30.0f,25.0f,20.0f,15.0f,10.0f,10.0f,5.0f,5.0f,2.0f};
    
-    std::array<float,100> snakeBody{  // 25 steps 40 -> 55
-  40.0f, 40.6f, 41.2f, 41.8f, 42.4f, 43.0f, 43.6f, 44.2f, 44.8f, 45.4f,
-  46.0f, 46.6f, 47.2f, 47.8f, 48.4f, 49.0f, 49.6f, 50.2f, 50.8f, 51.4f,
-  52.0f, 52.6f, 53.2f, 53.8f, 54.4f,
+  //  std::array<float,100> snakeBody{  // 25 steps 40 -> 55
+  //40.0f, 40.6f, 41.2f, 41.8f, 42.4f, 43.0f, 43.6f, 44.2f, 44.8f, 45.4f,
+  //46.0f, 46.6f, 47.2f, 47.8f, 48.4f, 49.0f, 49.6f, 50.2f, 50.8f, 51.4f,
+  //52.0f, 52.6f, 53.2f, 53.8f, 54.4f,
 
-  // 25 steps 55 -> 40
-  55.0f, 54.4f, 53.8f, 53.2f, 52.6f, 52.0f, 51.4f, 50.8f, 50.2f, 49.6f,
-  49.0f, 48.4f, 47.8f, 47.2f, 46.6f, 46.0f, 45.4f, 44.8f, 44.2f, 43.6f,
-  43.0f, 42.4f, 41.8f, 41.2f, 40.6f,
+  //// 25 steps 55 -> 40
+  //55.0f, 54.4f, 53.8f, 53.2f, 52.6f, 52.0f, 51.4f, 50.8f, 50.2f, 49.6f,
+  //49.0f, 48.4f, 47.8f, 47.2f, 46.6f, 46.0f, 45.4f, 44.8f, 44.2f, 43.6f,
+  //43.0f, 42.4f, 41.8f, 41.2f, 40.6f,
 
-  // 40 steps 40 -> 5
-  40.0f, 38.6f, 37.2f, 35.8f, 34.4f, 33.0f, 31.6f, 30.2f, 28.8f, 27.4f,
-  26.0f, 24.6f, 23.2f, 21.8f, 20.4f, 19.0f, 17.6f, 16.2f, 14.8f, 13.4f,
-  12.0f, 10.6f, 9.2f, 7.8f, 6.4f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
-  5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
+  //// 40 steps 40 -> 5
+  //40.0f, 38.6f, 37.2f, 35.8f, 34.4f, 33.0f, 31.6f, 30.2f, 28.8f, 27.4f,
+  //26.0f, 24.6f, 23.2f, 21.8f, 20.4f, 19.0f, 17.6f, 16.2f, 14.8f, 13.4f,
+  //12.0f, 10.6f, 9.2f, 7.8f, 6.4f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
+  //5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
 
-  // last 5 steps all 5
-  5.0f, 5.0f, 5.0f, 5.0f, 5.0f};
+  //// last 5 steps all 5
+  //5.0f, 5.0f, 5.0f, 5.0f, 5.0f};
   
-    //std::array<float,5> snakeBody{50.0f,40.0f,30.0f,20.0f,15.0f};
+    std::array<float,5> snakeBody{50.0f,40.0f,30.0f,20.0f,15.0f};
 
     int add{int(snakeBody.size())};
     int rows{1};
@@ -66,7 +66,14 @@ ProceduralAnimation::ProceduralAnimation()
     // Sides setup
     for (int i{0}; i < m_Links.size(); i++)
     {
-        m_Links[i]->CalculateSidePoints(1); 
+        if (i != 0)
+        {
+            m_Links[i]->CalculateSidePoints(1);
+        }
+        else
+        {
+            m_Links[i]->CalculateSidePoints(2);
+        }
     }
 
     // Automatic constraining
@@ -306,4 +313,9 @@ void ProceduralAnimation::SwitchContraintDrawing()
     {
         m_DrawContraint = true;
     }
+}
+void ProceduralAnimation::CalculateArcs()
+{
+
+
 }

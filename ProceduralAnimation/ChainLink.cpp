@@ -14,7 +14,7 @@ ChainLink::ChainLink(Circlef bounds,float constraintRadius)
 {
     m_Center = std::make_shared<Point2f>(bounds.center);
     m_ConstraintR = std::make_shared<float>(constraintRadius);
-    
+    m_DirectionAngle={};
 }
 ChainLink::~ChainLink()
 {
