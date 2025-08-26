@@ -71,7 +71,7 @@ private:
         float fromAngle;
         float tillAngle;
     };
-
+  
     std::vector<Arc> m_SnakeSides;
     std::vector<std::weak_ptr<std::vector<const Point2f>>> m_AllSidePoints;
 

@@ -190,3 +190,5 @@ void ChainLink::SetAngle(float angle)
 {
     m_DirectionAngle = angle;
 }
+
+
