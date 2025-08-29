@@ -34,6 +34,7 @@ public:
     void DrawLinks() const;
     void DrawLink(ChainLink target) const;
     void DrawUI(Rectf viewport) const; 
+    void DrawPolygon() const;
 
     void Update(float elapsedTime);
     void UpdateLinks();
@@ -55,12 +56,31 @@ public:
     void ConstrainToMouse();
     void UpdateMainLinks();
 
+    void CalculateArcs();
+
+    void drawFilledPolygon(const std::vector<Point2f>& poly) const;
+
+
 private:
     // Add FIX to things that need to be fixed, later check FIX in search tool
     // Same with DELETE
-    
-    void Cleanup();
 
+    // Calculate sides of a segment using direction vector and angle of it
+    
+    // Only circles
+    struct Arc
+    {
+        Point2f center;
+        float radius;
+        float fromAngle;
+        float tillAngle;
+    };
+  
+    std::vector<Arc> m_SnakeSides;
+    std::vector<std::vector<Point2f>> m_AllSidePoints;
+
+    void Cleanup();
+    mutable bool change{false};
     // Mouse
     Point2f m_LastMousePos; 
     int m_ConstrainedToMouse;
