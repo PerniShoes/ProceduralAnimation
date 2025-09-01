@@ -1,8 +1,8 @@
 # Procedural Animation
-Procedural animation of a snake.
-Some chunks of code are poorly designed. 
-Decided to finish it "as is" and just apply learnt patterns in my next project.
-Overall it works pretty well, not exactly as I originally planned for it, but it's okay.
+Procedural animation of a snake.  
+Some chunks of code are poorly designed.   
+Decided to finish it "as is" and just apply learnt patterns in my next project.  
+Overall it works pretty well, not exactly as I originally planned for it, but it's okay.  
 
 
 <img width="400" height="600" alt="i123123mage" src="https://github.com/user-attachments/assets/66478832-d1ef-459b-9eb1-457944764891" />  
